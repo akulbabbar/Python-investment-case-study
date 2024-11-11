@@ -22,6 +22,8 @@ plt.pie(top_10_cities, labels=top_10_cities.index)
 plt.axis('equal')
 plt.show()
 
+#getting failed in printing the names, PIE CHART IS SUCCESSFUL
+
 # Print the city names and number of startups for the top 10 cities
 for city, count in top_10_cities.iteritems():
     print(city, count)
