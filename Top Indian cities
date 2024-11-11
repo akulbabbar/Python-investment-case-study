@@ -1,0 +1,27 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read the CSV file
+startup_df = pd.read_csv('C:/startup_funding.csv')
+
+# Clean the city names
+indian_cities = startup_df['CityLocation'].str.split("/",expand=True)
+df_city = indian_cities[0]
+startup_df['CityLocation'] = df_city.str.strip()
+
+startup_df['CityLocation'] = startup_df['CityLocation'].replace('Delhi', 'New Delhi')
+startup_df['CityLocation'].replace("bangalore","Bangalore",inplace=True)
+# Count the number of startups in each city
+city_count = startup_df.groupby('CityLocation')['StartupName'].count().sort_values(ascending=False)
+
+# Select the top 10 cities
+top_10_cities = city_count.head(10)
+
+# Plot a pie chart of the top 10 cities
+plt.pie(top_10_cities, labels=top_10_cities.index)
+plt.axis('equal')
+plt.show()
+
+# Print the city names and number of startups for the top 10 cities
+for city, count in top_10_cities.iteritems():
+    print(city, count)
