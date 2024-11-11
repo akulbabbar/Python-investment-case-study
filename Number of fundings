@@ -1,0 +1,33 @@
+# Open and read data file as specified in the question
+# Print the required output in given format
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Step 1: Load the data
+data = pd.read_csv('C:/startup_funding.csv')
+
+# Step 2: Preprocess the 'Date' column
+data['Date'].replace("22/01//2015","22/01/2015",inplace=True)
+data['Date'] = data['Date'].str.replace('\r', '')
+data['Date'] = data['Date'].str.replace('\\\\xc2\\\\xa0', '')
+
+# Step 3: Extract the year
+data['Year'] = pd.to_datetime(data['Date'], errors='coerce').dt.year
+
+# Step 4: Count the number of fundings for each year
+fundings_per_year = data['Year'].value_counts().sort_index()
+
+# Step 5: Sort the years in ascending order
+sorted_years = sorted(fundings_per_year.index)
+
+# Step 6: Plot a line graph
+plt.plot(sorted_years, fundings_per_year)
+plt.xlabel('Year')
+plt.ylabel('Number of Fundings')
+plt.title('Trend of Investments Over the Years')
+plt.show()
+
+# Step 7: Print year-wise total number of fundings
+for year in sorted_years:
+    total_fundings = fundings_per_year[year]
+    print(year, total_fundings)
